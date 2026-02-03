@@ -13,14 +13,14 @@
            <th>Isbn</th>
            <th>Price</th>
         </tr>
-        <tr th:each = "kirja : ${books}">
-            <td th:text="${kirja.title}"></td>
-            <td th:text="${kirja.author}"></td>
-            <td th:text="${kirja.publicationYear}"></td>
-            <td th:text="${kirja.Isbn}"></td>
-            <td th:text="${kirja.price}"></td>
+        <tr th:each = "book : ${books}">
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.publicationYear}"></td>
+            <td th:text="${book.Isbn}"></td>
+            <td th:text="${book.price}"></td>
 
-            <td><a th:hraf="@{/deleteBook/{id}(id=${kirja.id})}">Delete</a></td>
+            <td><a th:href="@{/deleteBook/{id}(id=${book.id})}">Delete</a></td>
         </tr>
     </table>
      <a href="/addBook">Add Book</a> 
