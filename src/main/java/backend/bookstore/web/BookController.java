@@ -13,6 +13,7 @@ import backend.bookstore.domain.BookRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
+
 @Controller
 public class BookController {
     
@@ -37,8 +38,8 @@ public class BookController {
     }
     
     @PostMapping("/saveBook")
-    public String addBook(Book book, Model model) {
-            log.info("Kirja " + book.toString());
+    public String saveBook(Book book) {
+            log.info("Book " + book.toString());
             bookRepository.save(book);
         return "redirect:/books";
     }
@@ -47,6 +48,12 @@ public class BookController {
     public String deleteBook(@PathVariable("id") Long id) {
         bookRepository.deleteById(id);
         return "redirect:/books";
+    }
+    @GetMapping("/editBook/{id}")
+    public String editBook(@PathVariable("id") Long id, Model model) {
+        Book book= bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book id:" + id));
+        model.addAttribute( "book", book);
+        return "/addbook";
     }
     
     
