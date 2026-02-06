@@ -4,29 +4,44 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Book {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
+  
     private Long id;
+
+    @NotEmpty(message = "Book name cannot be empty.")
+    @Size(min=3, max=250, message = "Book names are 3-250 characters long.")
     private String title;
     private String author;
     private int publicationYear;
     private String isbn;
     private double price;
 
+
+    @ManyToOne
+    @JoinColumn(name= "categoryid")
+    private Category category;
+    
     public Book (){
 
     }
 
-    public Book(String title, String author, int publicationYear, String isbn, double price) {
+    public Book(String title, String author, int publicationYear, String isbn, double price, Category category) {
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
         this.isbn = isbn;
         this.price = price;
+        this.category = category;
     }
+
 
 
     @Override
@@ -82,6 +97,14 @@ public class Book {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
 
