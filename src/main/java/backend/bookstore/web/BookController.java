@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,12 +56,13 @@ public class BookController {
         return "redirect:/booklist";
     }
       
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/deleteBook/{id}")
     public String deleteBook(@PathVariable("id") Long id) {
         bookRepository.deleteById(id);
         return "redirect:/booklist";
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/editBook/{id}")
     public String editBook(@PathVariable("id") Long id, Model model) {
         Book book= bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book id:" + id));

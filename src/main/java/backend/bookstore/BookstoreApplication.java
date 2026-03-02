@@ -10,15 +10,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import backend.bookstore.domain.Book;
-import backend.bookstore.domain.BookRepository;
-import backend.bookstore.domain.Category;
-import backend.bookstore.domain.CategoryRepository;
+import backend.bookstore.domain.*;
 
 @SpringBootApplication
 public class BookstoreApplication {
 
+    private final AppUserRepository appUserRepository;
+
 	private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.class);
+
+    BookstoreApplication(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
 
 	public static void main(String[] args) {
 		SpringApplication.run(BookstoreApplication.class, args);
@@ -41,6 +44,13 @@ public class BookstoreApplication {
 
 			bookRepository.save(new Book ("Aku Ankka", "Carl B", 1990, "5679", 20, category1 ));
 			bookRepository.save(new Book ("Aku Ankka2", "Carl B", 1991, "4678", 25, category2));
+
+			AppUser user1= new AppUser("user", "$2a$10$uNCVFtA4KNseiaZ.vdFZB.L9vNKpgkHvD6DOcZOvUAAIyMPZEMV2y", "USER");
+			AppUser user2= new AppUser("admin", "$2a$10$R45e3TgpKuQRsPkFTtzDXOpjEL2sSVZbR0lmTnGmRP/mLeArZMIQe", "ADMIN");
+			appUserRepository.save(user1);
+			appUserRepository.save(user2);
+
+
 			
 			log.info("fetch all books");
 			for (Book kirja : bookRepository.findAll()) {
